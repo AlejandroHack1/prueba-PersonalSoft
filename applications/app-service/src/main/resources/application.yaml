@@ -1,16 +1,25 @@
 server:
-  port: 8787
+  port: 8085
 
 spring:
   application:
-    name: "prueba"
+    name: "ms-airplane-ticket-booking"
 
   datasource:
-    url: "jdbc:postgresql://localhost:5432/prueba"
-    username: "postgres"
-    password: "3809"
+    url: "jdbc:postgresql://postgres14:5432/airline"
+    username: "airline"
+    password: "airline"
     driverClassName: "org.postgresql.Driver"
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
 
   jpa:
     hibernate:
       ddl-auto: update
+  jackson:
+    date-format: dd/MM/yyyy HH:mm:ss
+
+logging:
+  level:
+    root: INFO

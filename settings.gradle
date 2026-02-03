@@ -1,4 +1,4 @@
-rootProject.name = 'prueba'
+rootProject.name = 'ms-airplane-ticket-booking'
 include 'app-service'
 include 'model'
 include 'usecase'

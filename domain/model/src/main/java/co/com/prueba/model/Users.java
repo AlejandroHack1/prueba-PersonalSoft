@@ -1,44 +1,48 @@
 package co.com.prueba.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Data
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
-    private int userId;
+    private Long userId;
 
-    @Column(name = "user_event_id", nullable = false)
-    private int userEventId;
-
+    @Pattern(regexp = "^[A-Za-z ]{1,30}$")
+    @Column(length = 30, nullable = false)
+    private String nombre;
 
     public Users() {
     }
 
-    public Users(int userId, int userEventId) {
+    public Users(Long userId, String nombre) {
         this.userId = userId;
-        this.userEventId = userEventId;
+        this.nombre = nombre;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
 
-    public int getUserId() {
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public int getUserEventId() {
-        return userEventId;
+    @Override
+    public String toString() {
+        return "Users{" +
+                "userId=" + userId +
+                ", nombre='" + nombre + '\'' +
+                '}';
     }
-
-    public void setUserEventId(int userEventId) {
-        this.userEventId = userEventId;
-    }
-
 }

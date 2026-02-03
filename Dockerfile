@@ -1,4 +1,4 @@
-FROM gradle:7.4.0-jdk-alpine as builder
+FROM gradle:8.5-jdk17 as builder
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY . .
 
 RUN ./gradlew clean build
 
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
