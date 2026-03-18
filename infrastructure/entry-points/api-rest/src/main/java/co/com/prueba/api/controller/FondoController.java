@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 
@@ -27,7 +28,7 @@ public class FondoController {
     }
 
     @PostMapping("/suscribir")
-    public ResponseEntity<Transaccion> suscribir(@RequestBody SuscribirRequest request) {
+    public ResponseEntity<?> suscribir(@RequestBody SuscribirRequest request) {
         try {
             Transaccion tx = suscribirFondoUseCase.suscribir(
                     request.clienteId,
@@ -35,8 +36,10 @@ public class FondoController {
                     request.monto
             );
             return ResponseEntity.ok(tx);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity
+                    .status(e.getStatusCode())
+                    .body(new ErrorResponse(e.getReason()));
         }
     }
 
@@ -55,6 +58,13 @@ public class FondoController {
             return ResponseEntity.ok(tx);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    public static class ErrorResponse {
+        public String mensaje;
+        public ErrorResponse(String mensaje) {
+            this.mensaje = mensaje;
         }
     }
 }
