@@ -1,13 +1,13 @@
-rootProject.name = 'ms-airplane-ticket-booking'
+rootProject.name = 'ms-BTG-Pactual'
 include 'app-service'
 include 'model'
 include 'usecase'
-include 'jpa-repository'
+include 'mongo-repository'
 include 'api-rest'
 
 project(':app-service').projectDir = file('./applications/app-service')
 project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
-project(':jpa-repository').projectDir = file('./infrastructure/driven-adapters/jpa-repository')
+project(':mongo-repository').projectDir = file('./infrastructure/driven-adapters/mongo-repository')
 project(':api-rest').projectDir = file('./infrastructure/entry-points/api-rest')
 

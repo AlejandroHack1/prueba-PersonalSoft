@@ -3,7 +3,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     implementation project(':model')
     implementation project(':usecase')
-    implementation project(':jpa-repository')
+    implementation project(':mongo-repository')
     implementation project(':api-rest')
 
 }

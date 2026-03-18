@@ -3,22 +3,12 @@ server:
 
 spring:
   application:
-    name: "ms-airplane-ticket-booking"
+    name: "ms-BTG-Pactual"
 
-  datasource:
-    url: "jdbc:postgresql://postgres14:5432/airline"
-    username: "airline"
-    password: "airline"
-    driverClassName: "org.postgresql.Driver"
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-  jackson:
-    date-format: dd/MM/yyyy HH:mm:ss
+  data:
+    mongodb:
+      uri: "mongodb://btg:btg@mongo:27017/btg?authSource=admin"
+      database: "btg"
 
 logging:
   level:

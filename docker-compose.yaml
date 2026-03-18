@@ -1,42 +1,55 @@
-services:
-  postgres14:
-    container_name: postgresql14
-    image: postgres:14-alpine
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_DATABASE: airline
-      POSTGRES_USER: airline
-      POSTGRES_PASSWORD: airline
-    volumes:
-      - data-postgres:/var/lib/postgresql/data
-    restart: always
-    networks:
-      - spring
+version: "3.8"
 
-  adminer:
-    image: adminer
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:6.0
     ports:
-      - "8900:8787"
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: btg
+      MONGO_INITDB_ROOT_USERNAME: btg
+      MONGO_INITDB_ROOT_PASSWORD: btg
+    command: ["mongod", "--bind_ip_all"]
+    volumes:
+      - data-mongo:/data/db
     restart: always
     networks:
-      - spring
+      - btg-net
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express:1.0.0-alpha.4
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: btg
+      ME_CONFIG_MONGODB_ADMINPASSWORD: btg
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+    depends_on:
+      - mongo
+    restart: always
+    networks:
+      - btg-net
 
   api:
     build: .
-    container_name: airline-api
+    container_name: btg-api
     ports:
       - "8085:8085"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://btg:btg@mongo:27017/btg?authSource=admin
     depends_on:
-      - postgres14
+      - mongo
     restart: always
     networks:
-      - spring
+      - btg-net
 
 volumes:
-  data-postgres:
-
+  data-mongo:
 
 networks:
-  spring:
-    name: spring
+  btg-net:
+    name: btg-net
